@@ -1,0 +1,47 @@
+### Step: Django Project Scaffold + Auth
+
+- **What AI did:** Generated boilerplate for custom User model (email-based),
+  JWT auth views, settings.py configuration, and project folder structure.
+- **What AI did NOT do:** Decide the folder structure separation (backend/frontend),
+  choose SQLite for dev, or decide to use email-only auth (human decision based on Figma).
+- **Human decisions:** Project structure, auth strategy, tech stack confirmation.
+
+```
+
+---
+
+## STEP — Verify Auth Works
+
+You need **Postman** for this. If you don't have it, download it at postman.com.
+
+### Test 1 — Register
+```
+
+Method: POST
+URL: http://127.0.0.1:8000/api/auth/register/
+Headers: Content-Type: application/json
+Body (raw JSON):
+{
+"email": "test@test.com",
+"password": "test1234"
+}
+
+### Step: Categories + Notes Models and CRUD API
+
+- **What AI did:** Generated models, serializers, views, URL patterns,
+  and data migration for category seeding.
+- **What AI did NOT do:** Choose the category colors (matched from Figma screenshots),
+  decide UUID for note IDs, or choose which fields are optional.
+- **Human decisions:** Color values from Figma, UUID strategy for security,
+  decision to pre-seed categories instead of allowing user-created categories.
+
+### Step: Transcription Service
+
+- **What AI did:** Generated the service layer pattern, OpenAI Whisper
+  integration code, and the DRF endpoint with file validation.
+- **What AI did NOT do:** Choose between AssemblyAI vs Whisper
+  (human decision based on simplicity), decide audio is never stored
+  (human architectural decision), or set the 25MB limit (matched from
+  OpenAI's own documented constraint).
+- **Human decisions:** Stateless audio architecture, API provider choice,
+  service layer separation pattern.
