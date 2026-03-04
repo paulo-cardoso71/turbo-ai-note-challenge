@@ -54,3 +54,25 @@ Body (raw JSON):
   decide the redirect flow, or choose cookies for token storage.
 - **Human decisions:** UX flow (register → auto login → dashboard),
   error message strategy, Figma color matching
+
+  ### Step: Dashboard + Note Modal + Audio Recording
+
+- **What AI did:** Generated dashboard layout, sidebar with category
+  filtering, masonry note grid, note card component, full note modal
+  with create/edit/delete, and browser MediaRecorder audio capture.
+- **What AI did NOT do:** Design the color system (from Figma), decide
+  the masonry CSS approach, or choose to append transcription to
+  existing content (human UX decision).
+- **Human decisions:** UX flow for transcription insertion, card color
+  inheritance from category, empty state messaging.
+
+  ### Step: Auto-save + Modal Redesign
+
+- **What AI did:** Implemented debounced auto-save with 1s timer,
+  redesigned modal to match Figma fullscreen layout, added category
+  dropdown, moved controls to top bar outside the card.
+- **What AI did NOT do:** Decide the 1 second debounce timing
+  (human UX decision), choose fullscreen vs overlay modal layout
+  (matched from Figma), or decide to save on close as safety net.
+- **Human decisions:** Auto-save UX pattern, layout structure,
+  safety-save on modal close.
