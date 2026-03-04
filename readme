@@ -45,3 +45,12 @@ Body (raw JSON):
   OpenAI's own documented constraint).
 - **Human decisions:** Stateless audio architecture, API provider choice,
   service layer separation pattern.
+
+  ### Step: Auth Pages (Login + Register)
+
+- **What AI did:** Generated login and register page components,
+  form state management, error handling, and routing logic.
+- **What AI did NOT do:** Design the color scheme (from Figma),
+  decide the redirect flow, or choose cookies for token storage.
+- **Human decisions:** UX flow (register → auto login → dashboard),
+  error message strategy, Figma color matching
