@@ -18,6 +18,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'drf_spectacular',
     # Third party
     'rest_framework',
     'corsheaders',
@@ -74,6 +75,25 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
     ),
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Turbo Notes API',
+    'DESCRIPTION': '''
+REST API for Turbo Notes — a Notion-style notes app
+with AI-powered audio transcription and auto-title generation.
+
+## Authentication
+All endpoints except /auth/register/ and /auth/login/ require
+a JWT Bearer token in the Authorization header.
+
+Get a token via POST /api/auth/login/, then include it as:
+`Authorization: Bearer <your_access_token>`
+    ''',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    'COMPONENT_SPLIT_REQUEST': True,
 }
 
 SIMPLE_JWT = {
