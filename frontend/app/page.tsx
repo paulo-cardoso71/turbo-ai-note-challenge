@@ -16,6 +16,7 @@ export default function Dashboard() {
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [editingNote, setEditingNote] = useState<Note | null>(null)
+  const [searchQuery, setSearchQuery] = useState('')
 
   // Guard: redirect to login if no token
   useEffect(() => {
@@ -49,6 +50,16 @@ export default function Dashboard() {
     staleTime: 0,
   })
 
+  // Client-side search — fast, no extra API calls
+  const filteredNotes = notes.filter(note => {
+    if (!searchQuery.trim()) return true
+    const q = searchQuery.toLowerCase()
+    return (
+      note.title?.toLowerCase().includes(q) ||
+      note.content?.toLowerCase().includes(q)
+    )
+  })
+
   const handleSelectCategory = (id: number | null) => {
     setSelectedCategory(id)
   }
@@ -66,7 +77,6 @@ export default function Dashboard() {
   const closeModal = () => {
     setIsModalOpen(false)
     setEditingNote(null)
-    // Invalidate both queries so counts + grid both refresh
     queryClient.invalidateQueries({ queryKey: ['notes'] })
     queryClient.invalidateQueries({ queryKey: ['notes-all'] })
   }
@@ -83,28 +93,68 @@ export default function Dashboard() {
 
       <main className="flex-1 p-8">
 
-        <div className="flex justify-end mb-8">
+        {/* Header — search + new note */}
+        <div className="flex items-center justify-between mb-8">
+
+          {/* Search bar */}
+          <div className="relative flex-1 max-w-sm">
+            <svg
+              className="absolute left-3 top-1/2 -translate-y-1/2 opacity-40"
+              width="16" height="16" viewBox="0 0 24 24"
+              fill="none" stroke="#5C3D2E" strokeWidth="2"
+            >
+              <circle cx="11" cy="11" r="8"/>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <input
+              type="text"
+              placeholder="Search notes..."
+              value={searchQuery}
+              onChange={e => setSearchQuery(e.target.value)}
+              className="w-full pl-9 pr-4 py-2 rounded-full text-sm outline-none"
+              style={{
+                backgroundColor: 'rgba(92, 61, 46, 0.08)',
+                color: '#5C3D2E',
+                border: '1px solid rgba(92, 61, 46, 0.15)',
+              }}
+            />
+            {searchQuery && (
+              <button
+                onClick={() => setSearchQuery('')}
+                className="absolute right-3 top-1/2 -translate-y-1/2 opacity-40 hover:opacity-70"
+                style={{ color: '#5C3D2E' }}
+              >
+                ✕
+              </button>
+            )}
+          </div>
+
+          {/* New Note button */}
           <button
             onClick={openNewNote}
-            className="flex items-center gap-2 px-5 py-2.5 rounded-full border transition-opacity hover:opacity-70"
+            className="flex items-center gap-2 px-5 py-2.5 rounded-full border transition-opacity hover:opacity-70 ml-4"
             style={{ borderColor: '#5C3D2E', color: '#5C3D2E' }}
           >
             + New Note
           </button>
         </div>
 
-        {notes.length === 0 && (
+        {/* Empty state */}
+        {filteredNotes.length === 0 && (
           <div className="flex flex-col items-center justify-center mt-24">
             <div className="text-8xl mb-6">🧋</div>
             <p className="text-lg" style={{ color: '#5C3D2E' }}>
-              I&apos;m just here waiting for your charming notes...
+              {searchQuery
+                ? `No notes found for "${searchQuery}"`
+                : "I'm just here waiting for your charming notes..."}
             </p>
           </div>
         )}
 
-        {notes.length > 0 && (
+        {/* Masonry grid */}
+        {filteredNotes.length > 0 && (
           <div className="masonry-grid">
-            {notes.map(note => (
+            {filteredNotes.map(note => (
               <div key={note.id} className="masonry-item">
                 <NoteCard
                   note={note}

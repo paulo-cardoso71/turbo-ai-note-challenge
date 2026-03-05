@@ -5,6 +5,7 @@ from rest_framework.parsers import MultiPartParser
 from drf_spectacular.utils import extend_schema, OpenApiResponse, OpenApiParameter
 from drf_spectacular.types import OpenApiTypes
 from services.ai_title import generate_title
+from django.db import models
 
 
 from .models import Note
@@ -19,13 +20,20 @@ class NoteListCreateView(generics.ListCreateAPIView):
         summary="List notes for current user",
         description="Returns all notes belonging to the authenticated user. Optionally filter by category.",
         parameters=[
-            OpenApiParameter(
-                name='category',
-                type=OpenApiTypes.INT,
-                location=OpenApiParameter.QUERY,
-                description='Filter notes by category ID',
-                required=False,
-            )
+             OpenApiParameter(
+            name='category',
+            type=OpenApiTypes.INT,
+            location=OpenApiParameter.QUERY,
+            description='Filter by category ID',
+            required=False,
+        ),
+        OpenApiParameter(
+            name='search',
+            type=OpenApiTypes.STR,
+            location=OpenApiParameter.QUERY,
+            description='Search notes by title or content',
+            required=False,
+        ),
         ],
         tags=['Notes'],
     )
@@ -41,17 +49,23 @@ class NoteListCreateView(generics.ListCreateAPIView):
         return super().post(request, *args, **kwargs)
 
     def get_queryset(self):
-        # CRITICAL: always filter by request.user — never expose other users' notes
+        # Always filter by request.user
         queryset = Note.objects.filter(
             user=self.request.user
         ).select_related('category')
         category_id = self.request.query_params.get('category')
         if category_id:
             queryset = queryset.filter(category_id=category_id)
+        search = self.request.query_params.get('search')
+        if search:
+            queryset = queryset.filter(
+                models.Q(title__icontains=search) |
+                models.Q(content__icontains=search)
+            )
         return queryset
 
     def perform_create(self, serializer):
-        # Automatically attach the logged-in user — frontend never sends user ID
+        # Automatically attach the logged-in user, frontend never sends user ID
         serializer.save(user=self.request.user)
 
 

@@ -224,13 +224,13 @@ export default function NoteModal({ note, categories, onClose }: Props) {
               onClick={() => deleteMutation.mutate()}
               className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-full transition-all hover:opacity-80"
               style={
-                { color: '#E85D5D', 
+                { color: '#5C3D2E', 
                   border: '1px solid rgba(232, 93, 93, 0.3)',
                   backgroundColor: 'rgba(232, 93, 93, 0.08)',
                 }
               }
             >
-             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#E85D5D" strokeWidth="2">
+             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#5C3D2E" strokeWidth="2">
       <polyline points="3 6 5 6 21 6"/>
       <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
       <path d="M10 11v6M14 11v6"/>

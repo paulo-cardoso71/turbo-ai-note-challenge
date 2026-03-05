@@ -38,3 +38,10 @@ h1, h2, h3, h4 {
 @media (max-width: 640px) {
   .masonry-grid { columns: 1; }
 }
+
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear,
+input[type="password"]::-webkit-credentials-auto-fill-button,
+input[type="password"]::-webkit-strong-password-auto-fill-button {
+  display: none !important;
+}

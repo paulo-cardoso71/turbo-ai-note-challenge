@@ -3,7 +3,7 @@ from django.db import models
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
-    color = models.CharField(max_length=7)  # hex e.g. #E8A87C
+    color = models.CharField(max_length=7)
 
     class Meta:
         verbose_name_plural = 'categories'

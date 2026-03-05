@@ -36,13 +36,13 @@ export default function LoginPage() {
       <div className="mb-2 text-7xl select-none">🌵</div>
 
       <h1
-        className="text-4xl mb-8 tracking-tight"
+        className="text-5xl mb-8 tracking-tight"
         style={{ color: '#5C3D2E', fontFamily: 'Georgia, serif' }}
       >
          Yay, You&apos;re Back!
       </h1>
 
-      <div className="w-full max-w-xs flex flex-col gap-3">
+      <div className="w-full max-w-sm flex flex-col gap-3">
         <input
           type="email"
           placeholder="Email address"
@@ -69,6 +69,7 @@ export default function LoginPage() {
               backgroundColor: '#EDE0CC',
               color: '#5C3D2E',
               border: 'none',
+              WebkitAppearance: 'none',
             }}
           />
           <button
