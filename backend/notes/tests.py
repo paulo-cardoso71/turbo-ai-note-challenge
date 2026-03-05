@@ -193,3 +193,37 @@ class NotesCRUDTests(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 1)
         self.assertEqual(response.data[0]['title'], 'Category Note')
+
+class AITitleTests(TestCase):
+    """
+    Tests for AI title generation endpoint.
+    We test the endpoint contract, not the AI output
+    (AI output is non-deterministic and shouldn't be tested).
+    """
+
+    def setUp(self):
+        self.client = APIClient()
+        self.user = User.objects.create_user(
+            email='aiuser@test.com',
+            password='pass123'
+        )
+        self.client.force_authenticate(user=self.user)
+        self.url = '/api/notes/generate-title/'
+
+    def test_generate_title_without_content_returns_400(self):
+        """
+        Empty content should be rejected before hitting OpenAI.
+        Saves API costs and gives clear error feedback.
+        """
+        response = self.client.post(self.url, {'content': ''}, format='json')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_generate_title_requires_authentication(self):
+        """Unauthenticated requests must be blocked."""
+        self.client.force_authenticate(user=None)
+        response = self.client.post(
+            self.url,
+            {'content': 'Some note content'},
+            format='json'
+        )
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)

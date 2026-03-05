@@ -77,10 +77,25 @@ export default function NoteModal({ note, categories, onClose }: Props) {
 
   // Save immediately when modal closes (catches any unsaved state)
   const handleClose = async () => {
-    if (autoSaveTimer.current) clearTimeout(autoSaveTimer.current)
-    await performSave(title, content, categoryId, savedNoteId)
-    onClose()
+   if (autoSaveTimer.current) clearTimeout(autoSaveTimer.current)
+
+  let finalTitle = title
+
+  // Auto-generate title if blank but content exists
+  if (!title.trim() && content.trim()) {
+    try {
+      const res = await api.post('/notes/generate-title/', { content })
+      finalTitle = res.data.title
+      setTitle(finalTitle)
+    } catch (e) {
+      // Silent fail, note saves without title, no crash
+      console.error('Title generation failed', e)
+    }
   }
+
+  await performSave(finalTitle, content, categoryId, savedNoteId)
+  onClose()
+}
 
   // ─── Delete ────────────────────────────────────────────────────
   const deleteMutation = useMutation({

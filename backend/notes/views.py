@@ -4,6 +4,8 @@ from rest_framework.views import APIView
 from rest_framework.parsers import MultiPartParser
 from drf_spectacular.utils import extend_schema, OpenApiResponse, OpenApiParameter
 from drf_spectacular.types import OpenApiTypes
+from services.ai_title import generate_title
+
 
 from .models import Note
 from .serializers import NoteSerializer
@@ -138,5 +140,52 @@ class TranscribeAudioView(APIView):
         except Exception:
             return Response(
                 {'error': 'Transcription failed. Please try again.'},
+                status=status.HTTP_503_SERVICE_UNAVAILABLE
+            )
+
+class GenerateTitleView(APIView):
+    """
+    Generates an AI title from note content.
+    Only called when user leaves title blank.
+    """
+
+    @extend_schema(
+        summary="Generate AI title from note content",
+        description=(
+            "Uses GPT-4o-mini to generate a concise 3-5 word title "
+            "from note content. Called automatically when a note is "
+            "saved without a title."
+        ),
+        request={
+            'application/json': {
+                'type': 'object',
+                'properties': {
+                    'content': {'type': 'string', 'example': 'Today I went to the market...'},
+                },
+                'required': ['content'],
+            }
+        },
+        responses={
+            200: OpenApiResponse(description='Returns {title: string}'),
+            400: OpenApiResponse(description='No content provided'),
+            503: OpenApiResponse(description='AI service unavailable'),
+        },
+        tags=['AI Features'],
+    )
+    def post(self, request):
+        content = request.data.get('content', '').strip()
+
+        if not content:
+            return Response(
+                {'error': 'Content is required to generate a title'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        try:
+            title = generate_title(content)
+            return Response({'title': title})
+        except Exception:
+            return Response(
+                {'error': 'Title generation failed. Please try again.'},
                 status=status.HTTP_503_SERVICE_UNAVAILABLE
             )
