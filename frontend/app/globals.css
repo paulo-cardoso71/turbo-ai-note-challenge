@@ -6,12 +6,18 @@
   --color-category-orange: #E8A87C;
   --color-category-yellow: #F4D35E;
   --color-category-teal: #83C5BE;
-  --font-family-serif: Georgia, serif;
+  --font-family-serif: var(--font-playfair), Georgia, serif;
 }
 
 body {
   background-color: #F5ECD7;
   color: #5C3D2E;
+  font-family: system-ui, sans-serif;
+}
+
+/* Apply Playfair to all titles and serif elements */
+h1, h2, h3, h4 {
+  font-family: var(--font-playfair), Georgia, serif;
 }
 
 /* Masonry layout */

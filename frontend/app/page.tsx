@@ -97,7 +97,7 @@ export default function Dashboard() {
           <div className="flex flex-col items-center justify-center mt-24">
             <div className="text-8xl mb-6">🧋</div>
             <p className="text-lg" style={{ color: '#5C3D2E' }}>
-              I'm just here waiting for your charming notes...
+              I&apos;m just here waiting for your charming notes...
             </p>
           </div>
         )}

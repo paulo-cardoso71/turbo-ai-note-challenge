@@ -17,7 +17,7 @@ export default function Sidebar({ categories, selectedCategory, onSelectCategory
   notes.filter(n => {
     // Handle both cases: category as ID or as object
     if (typeof n.category === 'object' && n.category !== null) {
-      return (n.category as any).id === id
+      return (n.category as Category).id === id
     }
     return n.category === id
   }).length

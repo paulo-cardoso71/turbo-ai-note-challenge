@@ -207,10 +207,21 @@ export default function NoteModal({ note, categories, onClose }: Props) {
           {savedNoteId && (
             <button
               onClick={() => deleteMutation.mutate()}
-              className="text-xs opacity-40 hover:opacity-80 transition-opacity"
-              style={{ color: '#5C3D2E' }}
+              className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-full transition-all hover:opacity-80"
+              style={
+                { color: '#E85D5D', 
+                  border: '1px solid rgba(232, 93, 93, 0.3)',
+                  backgroundColor: 'rgba(232, 93, 93, 0.08)',
+                }
+              }
             >
-              🗑 Delete
+             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#E85D5D" strokeWidth="2">
+      <polyline points="3 6 5 6 21 6"/>
+      <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
+      <path d="M10 11v6M14 11v6"/>
+      <path d="M9 6V4h6v2"/>
+    </svg>
+    Delete
             </button>
           )}
           <button
@@ -255,43 +266,67 @@ export default function NoteModal({ note, categories, onClose }: Props) {
         />
 
         {/* Audio toolbar — bottom right, matches Figma exactly */}
-        <div className="absolute bottom-6 right-6">
+        <div className="absolute bottom-6 right-6 flex flex-col items-end gap-2">
+
+  {transcribing && (
+    <p className="text-xs opacity-50" style={{ color: '#5C3D2E' }}>
+      transcribing...
+    </p>
+  )}
+
+  <div
+    className="flex items-center gap-3 px-4 py-2.5 rounded-full"
+    style={{
+      backgroundColor: isRecording
+        ? 'rgba(232, 93, 93, 0.15)'
+        : 'rgba(92, 61, 46, 0.08)',
+      border: `1.5px solid ${isRecording ? '#E85D5D' : 'rgba(92,61,46,0.2)'}`,
+    }}
+  >
+    {/* Mic / Stop button */}
+    <button
+      onClick={isRecording ? stopRecording : startRecording}
+      className="transition-opacity hover:opacity-70"
+      title={isRecording ? 'Stop recording' : 'Start recording'}
+    >
+      {isRecording ? (
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="#E85D5D">
+          <path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/>
+        </svg>
+      ) : (
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5C3D2E" strokeWidth="2">
+          <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+          <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+          <line x1="12" y1="19" x2="12" y2="23"/>
+          <line x1="8" y1="23" x2="16" y2="23"/>
+        </svg>
+      )}
+    </button>
+
+    {/* Animated waveform — only when recording */}
+    {isRecording && (
+      <div className="flex items-center gap-0.5">
+        {[3, 6, 10, 7, 4, 8, 5].map((h, i) => (
           <div
-            className="flex items-center gap-3 px-4 py-2.5 rounded-full"
+            key={i}
+            className="w-0.5 rounded-full animate-pulse"
             style={{
-              backgroundColor: isRecording ? '#E85D5D' : `${cardColor}CC`,
-              border: `1.5px solid ${isRecording ? '#E85D5D' : '#5C3D2E'}40`
+              height: `${h * 2}px`,
+              backgroundColor: '#E85D5D',
+              animationDelay: `${i * 0.1}s`,
             }}
-          >
-            {/* Mic button */}
-            <button
-              onClick={isRecording ? stopRecording : startRecording}
-              className="text-lg hover:opacity-70 transition-opacity"
-              title={isRecording ? 'Stop recording' : 'Start recording'}
-            >
-              🎙
-            </button>
+          />
+        ))}
+      </div>
+    )}
 
-            {isRecording && (
-              <>
-                {/* Stop/hang up */}
-                <button
-                  onClick={stopRecording}
-                  className="text-lg hover:opacity-70"
-                >
-                  📵
-                </button>
-                {/* Waveform indicator */}
-                <span className="text-xs opacity-60" style={{ color: '#5C3D2E' }}>
-                  ▂▄▆▄▂
-                </span>
-              </>
-            )}
-
-            {/* Headphones icon — always visible */}
-            <span className="text-lg opacity-60">🎧</span>
-          </div>
-        </div>
+    {/* Headphones — always visible */}
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5C3D2E" strokeWidth="2" opacity="0.5">
+      <path d="M3 18v-6a9 9 0 0 1 18 0v6"/>
+      <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/>
+    </svg>
+  </div>
+</div>
       </div>
     </div>
   )
