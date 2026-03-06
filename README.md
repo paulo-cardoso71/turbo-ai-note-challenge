@@ -12,7 +12,7 @@ A 3–5 minute walkthrough covering architecture, main flows, and AI features.
 
 ## 🔗 Repository
 
-[github.com/paulo-cardoso71/turbo-ai-notes](https://github.com/paulo-cardoso71/turbo-ai-notes)
+[https://github.com/paulo-cardoso71/turbo-ai-note-challenge](https://github.com/paulo-cardoso71/turbo-ai-note-challenge)
 
 ---
 
