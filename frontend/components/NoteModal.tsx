@@ -256,7 +256,7 @@ export default function NoteModal({ note, categories, onClose }: Props) {
       >
         {/* Last edited */}
         {note && (
-          <p className="text-xs opacity-40 text-right mb-6" style={{ color: '#5C3D2E' }}>
+          <p className="text-xs font-medium text-right mb-6" style={{ color: '#3D2B1F' }}>
             Last Edited: {formatDate(note.updated_at)}
           </p>
         )}

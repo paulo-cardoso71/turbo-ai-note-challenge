@@ -21,30 +21,28 @@ export default function NoteCard({ note, onClick }: Props) {
     )
     if (diffDays === 0) return 'Today'
     if (diffDays === 1) return 'Yesterday'
-    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+    return date.toLocaleDateString('en-US', { month: 'long', day: 'numeric' })
   }
 
-  return (
+ return (
     <div
       onClick={onClick}
       className="rounded-[24px] p-5 cursor-pointer transition-all duration-200 hover:scale-[1.02]"
       style={{
         backgroundColor: color,
-        boxShadow: '0 2px 8px rgba(92, 61, 46, 0.10)',
-         border: '1px solid rgba(92, 61, 46, 0.08)'
+        boxShadow: '0 4px 12px rgba(92, 61, 46, 0.08)',
+        border: '1px solid rgba(92, 61, 46, 0.15)' 
       }}
     >
       {/* Meta row */}
-      <div
-        className="flex items-center gap-2 text-xs mb-3"
-        style={{ color: '#5C3D2E', opacity: 0.65 }}
-      >
-        <span className="font-medium">{formatDate(note.updated_at)}</span>
+      <div className="flex items-center gap-2 text-xs mb-3">
+        <span className="font-bold text-[#3D2B1F]">
+          {formatDate(note.updated_at)}
+        </span>
         {note.category_detail && (
-          <>
-            <span>·</span>
-            <span>{note.category_detail.name}</span>
-          </>
+          <span className="text-[#5C3D2E] opacity-80">
+            {note.category_detail.name}
+          </span>
         )}
       </div>
 
