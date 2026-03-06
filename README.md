@@ -8,7 +8,7 @@
 
 A 3–5 minute walkthrough covering architecture, main flows, and AI features.
 
-[▶ Watch 5-minute walkthrough](#)
+[▶ Watch 5-minute walkthrough](https://youtu.be/6F_jYjXy3wA)
 
 ## 🔗 Repository
 
@@ -35,7 +35,7 @@ A 3–5 minute walkthrough covering architecture, main flows, and AI features.
 
 ---
 
-## 🚀 Quick Start (Docker — Recommended)
+## 🚀 Quick Start (Docker - Recommended)
 
 ```bash
 git clone https://github.com/paulo-cardoso71/turbo-ai-notes.git
