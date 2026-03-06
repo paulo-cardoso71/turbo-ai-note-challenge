@@ -12,7 +12,7 @@ A 3–5 minute walkthrough covering architecture, main flows, and AI features.
 
 ## 🔗 Repository
 
-[github.com/paulo-cardoso71/turbo-ai-notes](https://github.com/paulo-cardoso71/turbo-ai-notes)
+[https://github.com/paulo-cardoso71/turbo-ai-note-challenge](https://github.com/paulo-cardoso71/turbo-ai-note-challenge)
 
 ---
 
@@ -38,8 +38,8 @@ A 3–5 minute walkthrough covering architecture, main flows, and AI features.
 ## 🚀 Quick Start (Docker - Recommended)
 
 ```bash
-git clone https://github.com/paulo-cardoso71/turbo-ai-notes.git
-cd turbo-ai-notes
+git clone https://github.com/paulo-cardoso71/turbo-ai-note-challenge.git
+cd turbo-ai-note-challenge
 cp backend/.env.example backend/.env
 # Fill in TRANSCRIPTION_API_KEY in backend/.env
 docker-compose up --build
