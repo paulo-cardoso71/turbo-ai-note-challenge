@@ -4,16 +4,9 @@ from openai import OpenAI
 
 def generate_title(content: str) -> str:
     """
-    Generates a short, elegant title for a note using GPT-4o-mini.
+    Generates a title for a note using GPT-4o-mini.
 
-    Args:
-        content: The note's text content
-
-    Returns:
-        A 3-5 word title string
-
-    Design decision: GPT-4o-mini over GPT-4 — same quality for
-    short title generation at 10x lower cost.
+    Design decision: GPT-4o-mini over GPT-4 — same quality for short title generation
     """
     client = OpenAI(api_key=os.getenv('TRANSCRIPTION_API_KEY'))
 
@@ -32,10 +25,10 @@ def generate_title(content: str) -> str:
             {
                 'role': 'user',
                 'content': f'Generate a title for this note:\n\n{content[:500]}'
-                # Limit to 500 chars — we don't need the full content for a title
+                # Limit to 500 chars
             }
         ],
-        max_tokens=20,  # Titles are short — no need for more
+        max_tokens=20,  # Titles are short
         temperature=0.7,  # Slight creativity without being random
     )
 

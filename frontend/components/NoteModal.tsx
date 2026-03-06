@@ -58,7 +58,7 @@ export default function NoteModal({ note, categories, onClose }: Props) {
 
   // Trigger auto-save 1 second after user stops typing
   useEffect(() => {
-    // Skip the very first render — don't save on open
+    // Skip the very first render
     if (isFirstRender.current) {
       isFirstRender.current = false
       return
@@ -75,13 +75,13 @@ export default function NoteModal({ note, categories, onClose }: Props) {
     }
   }, [title, content, categoryId])
 
-  // Save immediately when modal closes (catches any unsaved state)
+  // Save immediately when modal closes
   const handleClose = async () => {
    if (autoSaveTimer.current) clearTimeout(autoSaveTimer.current)
 
   let finalTitle = title
 
-  // Auto-generate title if blank but content exists
+  // Auto generate title if blank but content exists
   if (!title.trim() && content.trim()) {
     try {
       const res = await api.post('/notes/generate-title/', { content })
@@ -97,13 +97,13 @@ export default function NoteModal({ note, categories, onClose }: Props) {
   onClose()
 }
 
-  // ─── Delete ────────────────────────────────────────────────────
+  // Delete 
   const deleteMutation = useMutation({
     mutationFn: () => api.delete(`/notes/${savedNoteId}/`),
     onSuccess: onClose,
   })
 
-  // ─── Date format ───────────────────────────────────────────────
+  // Date format
   const formatDate = (dateStr: string) => {
     return new Date(dateStr).toLocaleDateString('en-US', {
       month: 'long', day: 'numeric', year: 'numeric',
@@ -111,7 +111,7 @@ export default function NoteModal({ note, categories, onClose }: Props) {
     })
   }
 
-  // ─── Audio recording ──────────────────────────────────────────
+  // Audio recording 
   const startRecording = async () => {
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
     mediaRecorder.current = new MediaRecorder(stream)
@@ -153,7 +153,7 @@ export default function NoteModal({ note, categories, onClose }: Props) {
       className="fixed inset-0 z-50 flex flex-col"
       style={{ backgroundColor: '#F5ECD7' }}
     >
-      {/* Top bar — outside the card */}
+      {/* Top bar, outside the card */}
       <div className="flex items-center justify-between px-6 py-3">
 
         {/* Category dropdown */}
@@ -249,7 +249,7 @@ export default function NoteModal({ note, categories, onClose }: Props) {
         </div>
       </div>
 
-      {/* Card — takes remaining height */}
+      {/* Card takes remaining height */}
       <div
         className="flex-1 mx-6 mb-6 rounded-2xl p-8 flex flex-col relative overflow-hidden"
         style={{ backgroundColor: cardColor }}
@@ -280,7 +280,7 @@ export default function NoteModal({ note, categories, onClose }: Props) {
           style={{ color: '#5C3D2E' }}
         />
 
-        {/* Audio toolbar — bottom right, matches Figma exactly */}
+        {/* Audio toolbar — bottom right, matches Figma*/}
         <div className="absolute bottom-6 right-6 flex flex-col items-end gap-2">
 
   {transcribing && (
@@ -318,7 +318,7 @@ export default function NoteModal({ note, categories, onClose }: Props) {
       )}
     </button>
 
-    {/* Animated waveform — only when recording */}
+    {/* Animated waveform, only when recording */}
     {isRecording && (
       <div className="flex items-center gap-0.5">
         {[3, 6, 10, 7, 4, 8, 5].map((h, i) => (
@@ -335,7 +335,7 @@ export default function NoteModal({ note, categories, onClose }: Props) {
       </div>
     )}
 
-    {/* Headphones — always visible */}
+    {/* Headphones*/}
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5C3D2E" strokeWidth="2" opacity="0.5">
       <path d="M3 18v-6a9 9 0 0 1 18 0v6"/>
       <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/>
